@@ -239,8 +239,8 @@ npm run test:coverage
 ## 🎨 UI Theme
 
 Netflix-inspired dark theme:
-- **Black:** `#141414` (Netflix)
-- **Red Accent:** `#E50914` (Netflix official)
+- **Black:** `#141414` 
+- **Red Accent:** `#E50914` 
 - **Glassmorphism:** 16px backdrop blur
 - **Translucent Cards** - 85%, 60%, 15%, 12% opacity variations
 
