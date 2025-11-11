@@ -12,7 +12,7 @@
 
 - **🎤 Voice Input** - Real-time speech-to-text with Whisper
 - **🤖 Multi-Provider AI** - Groq (3 models) + Google Gemini
-- **🎭 Custom Personas** - AI adapts to your role (salesperson, engineer, PM, etc.)
+- **🎭 Custom Personas** - AI adapts to your role (salesperson, engineer, Interview, etc.)
 - **⚡ Intelligent Caching** - 3x faster responses with smart cache invalidation
 - **🛡️ Rate Limiting** - Prevents API cost overruns
 - **🔄 Retry Logic** - 99.9% reliability with exponential backoff
