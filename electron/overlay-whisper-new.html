@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InterviewBuddy</title>
+  <style>
+    /* ============================================
+       NETFLIX/AMC+ DARK THEME
+       ============================================ */
+    
+    :root {
+      /* Netflix Colors */
+      --netflix-black: #141414;
+      --netflix-dark: #181818;
+      --netflix-card: #2a2a2a;
+      --netflix-hover: #3a3a3a;
+      
+      /* AMC+ Red Accents */
+      --amc-red: #FF0000;
+      --amc-red-dark: #CC0000;
+      --amc-red-glow: rgba(255, 0, 0, 0.3);
+      
+      /* Text Colors */
+      --text-primary: #ffffff;
+      --text-secondary: #b3b3b3;
+      --text-muted: #808080;
+      
+      /* Glassmorphism */
+      --glass-bg: rgba(42, 42, 42, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      
+      /* Shadows */
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 20px var(--amc-red-glow);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 
+                   "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(180deg, var(--netflix-black) 0%, var(--netflix-dark) 100%);
+      color: var(--text-primary);
+      width: 400px;
+      height: 600px;
+      overflow: hidden;
+      user-select: none;
+      -webkit-app-region: drag;
+    }
+    
+    /* ============================================
+       HEADER
+       ============================================ */
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: var(--netflix-dark);
+      border-bottom: 2px solid var(--amc-red);
+      -webkit-app-region: drag;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .logo-icon {
+      font-size: 24px;
+    }
+    
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    
+    .logo-accent {
+      color: var(--amc-red);
+    }
+    
+    .window-controls {
+      display: flex;
+      gap: 8px;
+      -webkit-app-region: no-drag;
+    }
+    
+    .window-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: none;
+      background: var(--netflix-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    
+    .window-btn:hover {
+      background: var(--netflix-hover);
+      color: var(--text-primary);
+      transform: scale(1.05);
+    }
+    
+    .window-btn.close-btn:hover {
+      background: var(--amc-red);
+      color: white;
+    }
+    
+    /* ============================================
+       SETTINGS BAR (Provider + Model Selection)
+       ============================================ */
+    
+    .settings-bar {
+      padding: 12px 20px;
+      background: var(--netflix-card);
+      display: flex;
+      gap: 10px;
+      -webkit-app-region: no-drag;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    
+    .select-wrapper {
+      flex: 1;
+      position: relative;
+    }
+    
+    .select-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      display: block;
+    }
+    
+    select {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--glass-border);
+      background: var(--netflix-dark);
+      color: var(--text-primary);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      -webkit-app-region: no-drag;
+    }
+    
+    select:hover {
+      border-color: var(--amc-red);
+      background: var(--netflix-hover);
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: var(--amc-red);
+      box-shadow: 0 0 0 2px var(--amc-red-glow);
+    }
+    
+    option {
+      background: var(--netflix-dark);
+      color: var(--text-primary);
+      padding: 8px;
+    }
+    
+    /* ============================================
+       MAIN CONTENT AREA (SCROLLABLE)
+       ============================================ */
+    
+    .content {
+      height: calc(600px - 64px - 57px - 60px); /* Total - Header - Settings - Bottom Nav */
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px 20px;
+      scroll-behavior: smooth;
+      -webkit-app-region: no-drag;
+    }
+    
+    /* Custom Scrollbar (Netflix-style) */
+    .content::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .content::-webkit-scrollbar-track {
+      background: var(--netflix-black);
+    }
+    
+    .content::-webkit-scrollbar-thumb {
+      background: var(--netflix-card);
+      border-radius: 4px;
+    }
+    
+    .content::-webkit-scrollbar-thumb:hover {
+      background: var(--amc-red);
+    }
+    
+    /* ============================================
+       CARDS (Glassmorphism)
+       ============================================ */
+    
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-md);
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card-title {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .card-content {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-primary);
+    }
+    
+    .status-card {
+      background: linear-gradient(135deg, var(--amc-red-dark), var(--amc-red));
+      border: none;
+      box-shadow: var(--shadow-glow);
+    }
+    
+    .status-card .card-title {
+      color: white;
+    }
+    
+    .status-card .card-content {
+      color: white;
+      font-weight: 500;
+    }
+    
+    .error-card {
+      background: rgba(255, 68, 68, 0.2);
+      border-color: rgba(255, 68, 68, 0.5);
+    }
+    
+    /* ============================================
+       RECORD BUTTON (Main CTA)
+       ============================================ */
+    
+    .record-btn {
+      position: absolute;
+      bottom: 76px;
+      left: 20px;
+      right: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--amc-red), var(--amc-red-dark));
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow-glow);
+      transition: all 0.3s ease;
+      -webkit-app-region: no-drag;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .record-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px var(--amc-red-glow);
+    }
+    
+    .record-btn:active {
+      transform: translateY(0);
+    }
+    
+    .record-btn.recording {
+      animation: pulse 2s infinite;
+      background: linear-gradient(135deg, #ff4444, #cc0000);
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 30px var(--amc-red-glow);
+      }
+      50% {
+        opacity: 0.8;
+        box-shadow: 0 0 50px var(--amc-red-glow);
+      }
+    }
+    
+    /* ============================================
+       BOTTOM NAVIGATION BAR
+       ============================================ */
+    
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: var(--netflix-card);
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 20px;
+      -webkit-app-region: no-drag;
+    }
+    
+    .nav-btn {
+      flex: 1;
+      height: 48px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      border-radius: 8px;
+    }
+    
+    .nav-btn:hover {
+      background: var(--netflix-hover);
+      color: var(--text-primary);
+    }
+    
+    .nav-btn.active {
+      color: var(--amc-red);
+    }
+    
+    .nav-icon {
+      font-size: 20px;
+    }
+    
+    .nav-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* ============================================
+       ACTION BUTTONS
+       ============================================ */
+    
+    .action-btns {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    
+    .action-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      background: var(--netflix-dark);
+      color: var(--text-primary);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    
+    .action-btn:hover {
+      background: var(--amc-red);
+      border-color: var(--amc-red);
+      transform: translateY(-1px);
+    }
+    
+    /* ============================================
+       UTILITY CLASSES
+       ============================================ */
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    .text-muted {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge-groq {
+      background: rgba(138, 43, 226, 0.2);
+      color: #9d7ae8;
+      border: 1px solid rgba(138, 43, 226, 0.3);
+    }
+    
+    .badge-gemini {
+      background: rgba(66, 133, 244, 0.2);
+      color: #5e9ff5;
+      border: 1px solid rgba(66, 133, 244, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <span class="logo-icon">🎤</span>
+      <span class="logo-text">Interview<span class="logo-accent">Buddy</span></span>
+    </div>
+    <div class="window-controls">
+      <button class="window-btn minimize-btn" id="minimize-btn">−</button>
+      <button class="window-btn close-btn" id="close-btn">×</button>
+    </div>
+  </div>
+
+  <!-- Settings Bar -->
+  <div class="settings-bar">
+    <div class="select-wrapper">
+      <label class="select-label">AI Provider</label>
+      <select id="provider-select">
+        <option value="groq" selected>⚡ Groq (Free & Fast)</option>
+        <option value="gemini">🧠 Google Gemini</option>
+      </select>
+    </div>
+    <div class="select-wrapper">
+      <label class="select-label">Model</label>
+      <select id="model-select">
+        <!-- Dynamically populated based on provider -->
+      </select>
+    </div>
+  </div>
+
+  <!-- Main Content (Scrollable) -->
+  <div class="content" id="content">
+    <!-- Status Card -->
+    <div class="card status-card">
+      <div class="card-title">🚀 STATUS</div>
+      <div class="card-content" id="status-text">Ready to record</div>
+      <div class="text-muted" style="margin-top: 8px;" id="status-hint">
+        Click record button below to start
+      </div>
+    </div>
+
+    <!-- Error Card (Hidden by default) -->
+    <div class="card error-card hidden" id="error-card">
+      <div class="card-title">⚠️ ERROR</div>
+      <div class="card-content" id="error-text"></div>
+    </div>
+
+    <!-- Transcript Card (Hidden by default) -->
+    <div class="card hidden" id="transcript-card">
+      <div class="card-title">📝 YOUR QUESTION</div>
+      <div class="card-content" id="transcript-text"></div>
+    </div>
+
+    <!-- Answer Card (Hidden by default) -->
+    <div class="card hidden" id="answer-card">
+      <div class="card-title">
+        💡 AI ANSWER 
+        <span class="badge badge-groq" id="answer-badge">Groq</span>
+      </div>
+      <div class="card-content" id="answer-text"></div>
+      <div class="action-btns">
+        <button class="action-btn" id="copy-btn">
+          📋 Copy
+        </button>
+        <button class="action-btn" id="continue-btn">
+          ➡️ Continue
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Record Button -->
+  <button class="record-btn" id="record-btn">
+    <span class="btn-icon">🎤</span>
+    <span class="btn-text">Start Recording</span>
+  </button>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <button class="nav-btn active" id="nav-home">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-btn" id="nav-history">
+      <span class="nav-icon">📝</span>
+      <span class="nav-label">History</span>
+    </button>
+    <button class="nav-btn" id="nav-settings">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-label">Settings</span>
+    </button>
+    <button class="nav-btn" id="nav-info">
+      <span class="nav-icon">ℹ️</span>
+      <span class="nav-label">About</span>
+    </button>
+  </div>
+
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="overlay-whisper.js"></script>
+</body>
+</html>

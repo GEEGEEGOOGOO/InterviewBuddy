@@ -1,0 +1,64 @@
+{
+  "name": "interviewbuddy",
+  "version": "1.0.0",
+  "description": "AI Interview Assistant - Desktop Application",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder build --win --publish never",
+    "build:mac": "electron-builder build --mac --publish never",
+    "build:linux": "electron-builder build --linux --publish never"
+  },
+  "build": {
+    "appId": "com.interviewbuddy.app",
+    "productName": "InterviewBuddy",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "node_modules/**/*",
+      "!node_modules/.cache"
+    ],
+    "extraResources": [
+      {
+        "from": "server",
+        "to": "server",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "temp",
+        "to": "temp"
+      }
+    ],
+    "asarUnpack": [
+      "node_modules/koffi/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "keywords": [
+    "ai",
+    "interview",
+    "electron",
+    "speech-recognition",
+    "desktop-app"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^39.1.1",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "electron-is-dev": "^3.0.1",
+    "koffi": "^2.14.1",
+    "socket.io-client": "^4.8.1"
+  }
+}

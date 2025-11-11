@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InterviewBuddy - Whisper Version</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      user-select: none;
+      -webkit-app-region: drag;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 10px;
+      -webkit-app-region: no-drag;
+    }
+    
+    button {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+      -webkit-app-region: no-drag;
+    }
+    
+    button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+    
+    .status-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .status-text {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    
+    .status-hint {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    
+    .main-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: bold;
+      background: white;
+      color: #667eea;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .main-btn.recording {
+      background: #ff4444;
+      color: white;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    .transcript-card,
+    .answer-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      display: none;
+    }
+    
+    .transcript-card.active,
+    .answer-card.active {
+      display: block;
+    }
+    
+    .card-title {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+    
+    .transcript-text,
+    .answer-text {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    .error-card {
+      background: rgba(255, 68, 68, 0.2);
+      border: 1px solid rgba(255, 68, 68, 0.5);
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      display: none;
+    }
+    
+    .error-card.active {
+      display: block;
+    }
+    
+    .action-btns {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">🎤 InterviewBuddy (Whisper)</div>
+    <div class="controls">
+      <button id="minimize-btn">_</button>
+      <button id="close-btn">×</button>
+    </div>
+  </div>
+
+  <div class="status-card">
+    <div class="status-text" id="status-text">✅ Ready with Whisper API</div>
+    <div class="status-hint" id="status-hint">Click below to start recording</div>
+  </div>
+
+  <button class="main-btn" id="main-btn">🎤 Start Recording</button>
+
+  <div class="error-card" id="error-card">
+    <div class="card-title">⚠️ Error</div>
+    <div class="error-text" id="error-text"></div>
+  </div>
+
+  <div class="transcript-card" id="transcript-card">
+    <div class="card-title">📝 Your Question</div>
+    <div class="transcript-text" id="transcript-text"></div>
+  </div>
+
+  <div class="answer-card" id="answer-card">
+    <div class="card-title">💡 AI Answer</div>
+    <div class="answer-text" id="answer-text"></div>
+    <div class="action-btns">
+      <button id="copy-btn">📋 Copy</button>
+      <button id="continue-btn">➡️ Continue</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="overlay-whisper.js"></script>
+</body>
+</html>

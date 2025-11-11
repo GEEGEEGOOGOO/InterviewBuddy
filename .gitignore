@@ -1,0 +1,107 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build artifacts
+dist/
+build/
+*.exe
+*.blockmap
+
+# Environment variables (NEVER commit API keys!)
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+app-*.log
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+server/data/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# Documentation (internal notes - not needed for users)
+*_SUMMARY.md
+*_COMPLETE.md
+*_GUIDE.md
+*_STEPS.md
+*_INSTRUCTIONS.md
+*_INFO.md
+*_LOG.md
+ADMIN_INSTRUCTIONS.txt
+BUILD_EXE.md
+CONVERSION_SUMMARY.md
+CREATE_DATABASE.bat
+DEBUG_*.bat
+FIX_*.md
+HISTORY_FEATURE_ADDED.md
+Hey_ud/
+IMG_LOG/
+IMPLEMENT_*.md
+INSTALL_EXTENSION.md
+LAUNCH_*.bat
+NEXT_STEPS*.md
+PERSONA_FEATURE_COMPLETE.md
+POSTGRESQL_SETUP.md
+PRODUCTION_READY*.md
+PROJECT_STRUCTURE.md
+QUERY/
+QUICK_*.md
+QUICK_*.txt
+QUICK_*.bat
+REALTIME_*.md
+REDIS_INFO.md
+RESUME_READY_SUMMARY.md
+RUN_*.bat
+RUN_*.ps1
+RUN_*.md
+SETUP*.md
+SIMPLE_TEST.bat
+START_*.md
+START_*.bat
+STEALTH_MODE_GUIDE.md
+SWITCH_TO_WHISPER.md
+TEST_*.md
+TEST_*.bat
+UI_UPDATE_MINIMAL.md
+USE_WHISPER_NOW.bat
+API_KEY_FIX_COMPLETE.md
+APP_IS_WORKING.md
+QUICK_FIX_APP_LAUNCH.md
+
+# Extension (not needed for core app)
+extension/
+
+# Old/backup files
+package-old.json
+query/
+client/
+
+# Electron build config (generated)
+package-electron.json
